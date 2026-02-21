@@ -10,7 +10,6 @@ import { defineConfig, envField } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 import { siteConfig } from "./src/site.config";
 import vercel from "@astrojs/vercel";
-import partytown from '@astrojs/partytown';
 
 // Remark plugins
 import remarkDirective from "remark-directive"; // Handle ::: directives as nodes
@@ -36,11 +35,6 @@ export default defineConfig({
     },
     integrations: [
         expressiveCode(expressiveCodeOptions), 
-        partytown({
-            config: {
-                forward: ["dataLayer.push"],
-            },
-        }),
         icon({
             iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
         }), 
