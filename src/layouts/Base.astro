@@ -23,7 +23,17 @@ const {
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
 		/>
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+		<script
+  type="text/partytown"
+  src="https://www.googletagmanager.com/gtag/js?id=G-CECJDMQBJR"></script>
+<script type="text/partytown">
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-XXXXXXXXXX");
+</script>
     </head
 	>
 	<!-- 修改 max-w-6xl 最大宽度-->
@@ -37,11 +47,6 @@ const {
 			<slot />
 		</main>
 		<Footer />
-    <script type="text/javascript">
-        aclib.runAutoTag({
-            zoneId: 's1olalavxo',
-        });
-    </script>
 
 	</body>
 </html>
