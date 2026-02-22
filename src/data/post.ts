@@ -2,9 +2,22 @@ import { type CollectionEntry, getCollection } from "astro:content";
 
 /** filter out draft posts based on the environment */
 export async function getAllPosts(): Promise<CollectionEntry<"post">[]> {
-	return await getCollection("post", ({ data }) => {
-		return import.meta.env.PROD ? !data.draft : true;
-	});
+	// return await getCollection("post", ({ data }) => {
+	// 	return import.meta.env.PROD ? !data.draft : true;
+		
+	// });
+
+	return await getCollection("post", ({ id, data }) => {
+        // 1. 开发环境：全部显示（方便你预览 demo 文章）
+        // 2. 正式环境：过滤掉草稿 AND 过滤掉 demo 目录下的文章
+        if (import.meta.env.PROD) {
+            const isDemo = id.startsWith("demo/");
+            return !data.draft && !isDemo;
+        }
+        
+        // 开发环境下显示所有非草稿（或者你也可以干脆返回 true 显示所有）
+        return !data.draft;
+    });
 }
 
 /** groups posts by year (based on option siteConfig.sortPostsByUpdatedDate), using the year as the key
