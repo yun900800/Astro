@@ -1,0 +1,3 @@
+const WEBMENTION_URL = undefined;const PUBLIC_DECAP_CMS_VERSION = "3.3.3";
+
+export { PUBLIC_DECAP_CMS_VERSION as P, WEBMENTION_URL as W };

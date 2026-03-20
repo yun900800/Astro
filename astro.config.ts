@@ -41,7 +41,43 @@ export default defineConfig({
         tailwind({
         applyBaseStyles: false,
         nesting: true,
-		}), sitemap(), mdx(), robotsTxt(), webmanifest({
+		}), 
+        sitemap({
+          // 过滤函数：只包含首页、博客文章和笔记
+          filter: (page) => {
+            // 排除以下路径：
+            // - /og-image/ (OG图片页面)
+            // - /admin/ (后台管理)
+            // - 任何以 / 开头的其他路径都会被检查
+            if (page.includes('/og-image/') || page.includes('/admin/')) {
+              return false;
+            }
+            return true;
+          },
+          // 自定义站点地图条目
+          customPages: [
+            'https://innovation.pp.ua/',
+            'https://innovation.pp.ua/posts/',
+            'https://innovation.pp.ua/notes/',
+            'https://innovation.pp.ua/about/',
+            'https://innovation.pp.ua/tags/',
+          ],
+          // 序列化选项
+          serialize: ({ url, changefreq, priority, lastmod }) => {
+            // 为不同页面设置不同的优先级
+            if (url === '/' || url === '/posts/') {
+              return { url, changefreq: 'daily', priority: 1.0, lastmod };
+            }
+            if (url.includes('/posts/')) {
+              return { url, changefreq: 'weekly', priority: 0.8, lastmod };
+            }
+            if (url.includes('/tags/')) {
+              return { url, changefreq: 'weekly', priority: 0.6, lastmod };
+            }
+            return { url, changefreq: 'monthly', priority: 0.5, lastmod };
+          },
+        }), 
+        mdx(), robotsTxt(), webmanifest({
         // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
         /**
          * required
