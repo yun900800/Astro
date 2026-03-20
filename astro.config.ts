@@ -33,9 +33,12 @@ export default defineConfig({
     image: {
         domains: ["webmention.io"],
     },
-    integrations: [expressiveCode(expressiveCodeOptions), icon({
-  iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
-}), tailwind({
+    integrations: [
+        expressiveCode(expressiveCodeOptions), 
+        icon({
+            iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
+        }), 
+        tailwind({
         applyBaseStyles: false,
         nesting: true,
 		}), sitemap(), mdx(), robotsTxt(), webmanifest({
@@ -110,7 +113,7 @@ export default defineConfig({
     prefetchAll: true,
   },
     // ! 改为你的网站地址，不然社交图片无法加载
-    site: "https://demo.343700.xyz/",
+    site: "https://innovation.pp.ua/",
     vite: {
         optimizeDeps: {
             exclude: ["@resvg/resvg-js"],

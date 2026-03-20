@@ -1,0 +1,48 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="面包屑导航" class="mb-4 text-sm">
+  <ol class="flex items-center gap-2 text-zinc-500 dark:text-zinc-400" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a 
+        href="/" 
+        class="hover:text-accent hover:underline underline-offset-4"
+        itemprop="item"
+      >
+        <span itemprop="name">首页</span>
+      </a>
+      <meta content="1" itemprop="position" />
+    </li>
+    {items.map((item, index) => (
+      <li class="flex items-center gap-2">
+        <span class="text-zinc-400">/</span>
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          {index === items.length - 1 ? (
+            <span class="text-textColor dark:text-zinc-200" itemprop="item">
+              <span itemprop="name">{item.label}</span>
+            </span>
+          ) : (
+            <a 
+              href={item.href} 
+              class="hover:text-accent hover:underline underline-offset-4"
+              itemprop="item"
+            >
+              <span itemprop="name">{item.label}</span>
+            </a>
+          )}
+          <meta content={String(index + 2)} itemprop="position" />
+        </li>
+      </li>
+    ))}
+  </ol>
+</nav>
