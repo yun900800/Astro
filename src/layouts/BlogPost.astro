@@ -22,19 +22,19 @@ const { headings } = await render(post);
 
 // 生成 JSON-LD 结构化数据
 const articleJsonLd = generateArticleJsonLd(
-  title,
-  description,
-  publishDate,
-  updatedDate,
-  `/posts/${post.id}/`,
-  siteConfig.author,
-  tags
+	title,
+	description,
+	publishDate,
+	updatedDate,
+	`/posts/${post.id}/`,
+	siteConfig.author,
+	tags,
 );
 
 // 生成面包屑结构化数据
 const breadcrumbJsonLd = generateBreadcrumbJsonLd([
-  { name: "博客", url: "/posts/" },
-  { name: title, url: `/posts/${post.id}/` },
+	{ name: "博客", url: "/posts/" },
+	{ name: title, url: `/posts/${post.id}/` },
 ]);
 ---
 
@@ -50,10 +50,10 @@ const breadcrumbJsonLd = generateBreadcrumbJsonLd([
 	<!-- JSON-LD 结构化数据 -->
 	<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 	<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
-	
+
 	<!-- 面包屑导航 -->
 	<Breadcrumbs items={[{ label: "博客", href: "/posts/" }]} />
-	
+
 	<div class="gap-x-10 lg:flex lg:items-start">
 		{!!headings.length && <TOC headings={headings} />}
 		<article class="flex-grow break-words" data-pagefind-body>

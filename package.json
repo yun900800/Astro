@@ -1,5 +1,5 @@
 {
-	"name": "",
+	"name": "my-astro-blog",
 	"version": "5.0.0",
 	"scripts": {
 		"dev": "astro dev",
@@ -14,7 +14,6 @@
 		"check": "astro check"
 	},
 	"dependencies": {
-		"": "file:",
 		"@astrojs/mdx": "4.0.1",
 		"@astrojs/rss": "4.0.10",
 		"@astrojs/sitemap": "3.2.1",
