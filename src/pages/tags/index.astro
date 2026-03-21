@@ -1,18 +1,35 @@
 ---
 import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
 
 const allPosts = await getAllPosts();
 const allTags = getUniqueTagsWithCount(allPosts);
 export const prerender = true;
 
 const meta = {
-	description: "A list of all the topics I've written about in my posts",
-	title: "All Tags",
+	description: "查看博客中使用的所有标签，找到感兴趣的主题",
+	title: "标签",
+};
+
+// 标签页面结构化数据
+const tagsPageJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: "全部标签",
+	description: "查看博客中使用的所有标签，找到感兴趣的主题",
+	url: `${Astro.site}tags/`,
+	isPartOf: {
+		"@type": "WebSite",
+		name: siteConfig.title,
+		url: `${Astro.site}`,
+	},
 };
 ---
 
 <PageLayout meta={meta}>
+	<!-- 标签页面结构化数据 -->
+	<script type="application/ld+json" set:html={JSON.stringify(tagsPageJsonLd)} />
 	<h1 class="title mb-6">全部标签</h1>
 	<ul class="flex flex-wrap gap-4">
 		{

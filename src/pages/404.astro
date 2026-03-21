@@ -3,8 +3,8 @@ import PageLayout from "@/layouts/Base.astro";
 export const prerender = true;
 
 const meta = {
-	description: "Oops! It looks like this page is lost in space!",
-	title: "Oops! You found a missing page!",
+	description: "页面未找到 - 您访问的页面不存在",
+	title: "404 - 页面未找到",
 };
 ---
 
@@ -73,7 +73,7 @@ const meta = {
 		}
 
 		body {
-			/* background: url(https://images.unsplash.com/photo-1729824346255-52a8f898fe84?w=1400) 50%/cover #212121; */
+			/* background: url(https://images.unsplash.com/photo-1729824346255-52a8f898fe84?w=1400) 50%/cover #212121); */
 			background: #212121;
 			background-blend-mode: multiply;
 			grid-template-rows: 1fr auto;
@@ -113,5 +113,11 @@ const meta = {
 			margin-right: 5px;
 		}
 	</style>
-	<div class="card"><h3>404</h3> 这里什么也没有！</div>
+	<div class="card">
+		<h3>404</h3>
+		<p>页面未找到</p>
+	</div>
+	<div class="text-center mt-8">
+		<a href="/" class="cactus-link text-lg">返回首页</a>
+	</div>
 </PageLayout>

@@ -18,6 +18,10 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.avif", Astro.ur
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <title>{siteTitle}</title>
 
+{/* 字体预加载 */}
+<link rel="preload" as="font" type="font/ttf" href="/fonts/roboto-mono-regular.ttf" crossorigin />
+<link rel="preload" as="font" type="font/ttf" href="/fonts/roboto-mono-700.ttf" crossorigin />
+
 {/* Icons */}
 <link href="/icons/site.avif" rel="icon" type="image/avif" />
 {

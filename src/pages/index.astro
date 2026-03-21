@@ -6,6 +6,8 @@ import Note from "@/components/note/Note.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
+import { generateWebSiteJsonLd } from "@/utils/seo";
+import { siteConfig } from "@/site.config";
 export const prerender = true;
 
 // Posts
@@ -19,10 +21,19 @@ const allPostsByDate = allPosts
 const MAX_NOTES = 0;
 const allNotes = await getCollection("note");
 const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
+
+// 网站结构化数据
+const websiteJsonLd = generateWebSiteJsonLd();
+const meta = {
+	description: siteConfig.description || "敲碎时间的人的博客，分享技术与生活思考",
+	title: siteConfig.title,
+};
 ---
 
 <!-- 修改：主页 -->
-<PageLayout meta={{ title: "主页" }}>
+<PageLayout meta={meta}>
+	<!-- 网站结构化数据 -->
+	<script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
 	<!-- 修改：注释 -->
 	<!-- <section>
 		<h1 class="title mb-6">Hello World!</h1>

@@ -54,6 +54,15 @@ const breadcrumbJsonLd = generateBreadcrumbJsonLd([
 		title,
 	}}
 >
+	<!-- 阅读进度条 -->
+	<div class="fixed top-0 left-0 z-50 h-1 w-full bg-transparent">
+		<div
+			class="h-full bg-link transition-all duration-100 ease-out"
+			id="reading-progress"
+			style="width: 0%"
+		></div>
+	</div>
+
 	<!-- JSON-LD 结构化数据 -->
 	<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 	<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
@@ -99,6 +108,7 @@ const breadcrumbJsonLd = generateBreadcrumbJsonLd([
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
 	const targetHeader = document.getElementById("blog-hero") as HTMLDivElement;
+	const progressBar = document.getElementById("reading-progress") as HTMLDivElement;
 
 	function callback(entries: IntersectionObserverEntry[]) {
 		entries.forEach((entry) => {
@@ -113,4 +123,14 @@ const breadcrumbJsonLd = generateBreadcrumbJsonLd([
 
 	const observer = new IntersectionObserver(callback);
 	observer.observe(targetHeader);
+
+	// 阅读进度条
+	function updateProgress() {
+		const scrollTop = window.scrollY;
+		const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+		const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+		progressBar.style.width = `${progress}%`;
+	}
+
+	window.addEventListener("scroll", updateProgress, { passive: true });
 </script>
