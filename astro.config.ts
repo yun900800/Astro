@@ -23,160 +23,163 @@ import rehypeExternalLinks from "rehype-external-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 import rehypeKatex from "rehype-katex"; // Render LaTeX with KaTeX
 
-
 import decapCmsOauth from "astro-decap-cms-oauth";
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: vercel(),
-    image: {
-        domains: ["webmention.io"],
-    },
-    integrations: [
-        expressiveCode(expressiveCodeOptions), 
-        icon({
-            iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
-        }), 
-        tailwind({
-        applyBaseStyles: false,
-        nesting: true,
-		}), 
-        sitemap({
-          // 过滤函数：只包含首页、博客文章和笔记
-          filter: (page) => {
-            // 排除以下路径：
-            // - /og-image/ (OG图片页面)
-            // - /admin/ (后台管理)
-            // - 任何以 / 开头的其他路径都会被检查
-            if (page.includes('/og-image/') || page.includes('/admin/')) {
-              return false;
-            }
-            return true;
-          },
-          // 自定义站点地图条目
-          customPages: [
-            'https://innovation.pp.ua/',
-            'https://innovation.pp.ua/posts/',
-            'https://innovation.pp.ua/notes/',
-            'https://innovation.pp.ua/about/',
-            'https://innovation.pp.ua/tags/',
-          ],
-          // 序列化选项
-          serialize: ({ url, changefreq, priority, lastmod }) => {
-            // 为不同页面设置不同的优先级
-            if (url === '/' || url === '/posts/') {
-              return { url, changefreq: 'daily', priority: 1.0, lastmod };
-            }
-            if (url.includes('/posts/')) {
-              return { url, changefreq: 'weekly', priority: 0.8, lastmod };
-            }
-            if (url.includes('/tags/')) {
-              return { url, changefreq: 'weekly', priority: 0.6, lastmod };
-            }
-            return { url, changefreq: 'monthly', priority: 0.5, lastmod };
-          },
-        }), 
-        mdx(), robotsTxt(), webmanifest({
-        // See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
-        /**
-         * required
-         **/
-        name: siteConfig.title,
-        /**
-         * optional
-         **/
-        short_name: "仙人掌主题",
-        description: siteConfig.description,
-        lang: siteConfig.lang,
-        icon: "public/icon.svg", // the source for generating favicon & icons
-        icons: [
-            {
-                src: "icons/apple-touch-icon.png", // used in src/components/BaseHead.astro L:26
-                sizes: "180x180",
-                type: "image/png",
-            },
-            {
-                src: "icons/icon-192.png",
-                sizes: "192x192",
-                type: "image/png",
-            },
-            {
-                src: "icons/icon-512.png",
-                sizes: "512x512",
-                type: "image/png",
-            },
-        ],
-        start_url: "/",
-        background_color: "#1d1f21",
-        theme_color: "#2bbc8a",
-        display: "standalone",
-        config: {
-            insertFaviconLinks: false,
-            insertThemeColorMeta: false,
-            insertManifestLink: false,
-        },
-		}), decapCmsOauth()],
-    markdown: {
-        rehypePlugins: [
-            [
-                rehypeExternalLinks,
-                {
-                    rel: ["nofollow, noreferrer"],
-                    target: "_blank",
-                },
-            ],
-            rehypeUnwrapImages,
-            rehypeKatex, // 添加 KaTeX 用于 LaTeX 渲染
-        ],
-        remarkPlugins: [
-          remarkReadingTime,
-          remarkDirective,
-          remarkAdmonitions,
-          remarkMath, // 添加 LaTeX 功能
-          remarkGemoji, // 添加 emoji 功能
-        ],
-        remarkRehype: {
-            footnoteLabelProperties: {
-                className: [""],
-            },
-      footnoteLabel: '脚注：',
-        },
-    },
-    // https://docs.astro.build/en/guides/prefetch/
-    prefetch: {
-    defaultStrategy: 'viewport',
-    prefetchAll: true,
-  },
-    // ! 改为你的网站地址，不然社交图片无法加载
-    site: "https://innovation.pp.ua/",
-    vite: {
-        optimizeDeps: {
-            exclude: ["@resvg/resvg-js"],
-        },
-        plugins: [rawFonts([".ttf", ".woff"])],
-    },
-    env: {
-        schema: {
-            WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
-            WEBMENTION_URL: envField.string({ context: "client", access: "public", optional: true }),
-            WEBMENTION_PINGBACK: envField.string({ context: "client", access: "public", optional: true }),
-        },
-    },
+	output: "server",
+	adapter: vercel(),
+	image: {
+		domains: ["webmention.io"],
+	},
+	integrations: [
+		expressiveCode(expressiveCodeOptions),
+		icon({
+			iconDir: "public/icons", // 修改：指定自定义图标目录 name = svg文件名
+		}),
+		tailwind({
+			applyBaseStyles: false,
+			nesting: true,
+		}),
+		sitemap({
+			// 过滤函数：只包含首页、博客文章和笔记
+			filter: (page) => {
+				// 排除以下路径：
+				// - /og-image/ (OG图片页面)
+				// - /admin/ (后台管理)
+				// - 任何以 / 开头的其他路径都会被检查
+				if (page.includes("/og-image/") || page.includes("/admin/")) {
+					return false;
+				}
+				return true;
+			},
+			// 自定义站点地图条目
+			customPages: [
+				"https://innovation.pp.ua/",
+				"https://innovation.pp.ua/posts/",
+				"https://innovation.pp.ua/notes/",
+				"https://innovation.pp.ua/about/",
+				"https://innovation.pp.ua/tags/",
+			],
+			// 序列化选项
+			serialize: ({ url, changefreq, priority, lastmod }) => {
+				// 为不同页面设置不同的优先级
+				if (url === "/" || url === "/posts/") {
+					return { url, changefreq: "daily", priority: 1.0, lastmod };
+				}
+				if (url.includes("/posts/")) {
+					return { url, changefreq: "weekly", priority: 0.8, lastmod };
+				}
+				if (url.includes("/tags/")) {
+					return { url, changefreq: "weekly", priority: 0.6, lastmod };
+				}
+				return { url, changefreq: "monthly", priority: 0.5, lastmod };
+			},
+		}),
+		mdx(),
+		robotsTxt(),
+		webmanifest({
+			// See: https://github.com/alextim/astro-lib/blob/main/packages/astro-webmanifest/README.md
+			/**
+			 * required
+			 **/
+			name: siteConfig.title,
+			/**
+			 * optional
+			 **/
+			short_name: "仙人掌主题",
+			description: siteConfig.description,
+			lang: siteConfig.lang,
+			icon: "public/icon.svg", // the source for generating favicon & icons
+			icons: [
+				{
+					src: "icons/apple-touch-icon.png", // used in src/components/BaseHead.astro L:26
+					sizes: "180x180",
+					type: "image/png",
+				},
+				{
+					src: "icons/icon-192.png",
+					sizes: "192x192",
+					type: "image/png",
+				},
+				{
+					src: "icons/icon-512.png",
+					sizes: "512x512",
+					type: "image/png",
+				},
+			],
+			start_url: "/",
+			background_color: "#1d1f21",
+			theme_color: "#2bbc8a",
+			display: "standalone",
+			config: {
+				insertFaviconLinks: false,
+				insertThemeColorMeta: false,
+				insertManifestLink: false,
+			},
+		}),
+		decapCmsOauth(),
+	],
+	markdown: {
+		rehypePlugins: [
+			[
+				rehypeExternalLinks,
+				{
+					rel: ["nofollow, noreferrer"],
+					target: "_blank",
+				},
+			],
+			rehypeUnwrapImages,
+			rehypeKatex, // 添加 KaTeX 用于 LaTeX 渲染
+		],
+		remarkPlugins: [
+			remarkReadingTime,
+			remarkDirective,
+			remarkAdmonitions,
+			remarkMath, // 添加 LaTeX 功能
+			remarkGemoji, // 添加 emoji 功能
+		],
+		remarkRehype: {
+			footnoteLabelProperties: {
+				className: [""],
+			},
+			footnoteLabel: "脚注：",
+		},
+	},
+	// https://docs.astro.build/en/guides/prefetch/
+	prefetch: {
+		defaultStrategy: "viewport",
+		prefetchAll: true,
+	},
+	// ! 改为你的网站地址，不然社交图片无法加载
+	site: "https://innovation.pp.ua/",
+	vite: {
+		optimizeDeps: {
+			exclude: ["@resvg/resvg-js"],
+		},
+		plugins: [rawFonts([".ttf", ".woff"])],
+	},
+	env: {
+		schema: {
+			WEBMENTION_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+			WEBMENTION_URL: envField.string({ context: "client", access: "public", optional: true }),
+			WEBMENTION_PINGBACK: envField.string({ context: "client", access: "public", optional: true }),
+		},
+	},
 });
 
 function rawFonts(ext: string[]) {
-    return {
-        name: "vite-plugin-raw-fonts",
-        // @ts-expect-error:next-line
-        transform(_, id) {
-            if (ext.some((e) => id.endsWith(e))) {
-                const buffer = fs.readFileSync(id);
-                return {
-                    code: `export default ${JSON.stringify(buffer)}`,
-                    map: null,
-                };
-            }
-        },
-    };
+	return {
+		name: "vite-plugin-raw-fonts",
+		// @ts-expect-error:next-line
+		transform(_, id) {
+			if (ext.some((e) => id.endsWith(e))) {
+				const buffer = fs.readFileSync(id);
+				return {
+					code: `export default ${JSON.stringify(buffer)}`,
+					map: null,
+				};
+			}
+		},
+	};
 }

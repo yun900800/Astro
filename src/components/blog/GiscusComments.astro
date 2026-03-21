@@ -1,0 +1,43 @@
+---
+interface Props {
+	path?: string;
+}
+
+const { path = Astro.url.pathname } = Astro.props;
+---
+
+<div class="not-prose" id="giscus-container">
+	<div id="giscus"></div>
+</div>
+
+<script is:inline define:vars={{ path }}>
+	const script = document.createElement("script");
+	script.src = "https://giscus.app/client.js";
+	script.setAttribute("data-repo", "yun900800/Astro");
+	script.setAttribute("data-repo-id", "R_kgDOOKlTOA");
+	script.setAttribute("data-category", "Announcements");
+	script.setAttribute("data-category-id", "DIC_kwDOOKlTOM4C45sO");
+	script.setAttribute("data-mapping", "pathname");
+	script.setAttribute("data-strict", "0");
+	script.setAttribute("data-reactions-enabled", "1");
+	script.setAttribute("data-emit-metadata", "0");
+	script.setAttribute("data-input-position", "top");
+	script.setAttribute("data-theme", "preferred_color_scheme");
+	script.setAttribute("data-lang", "zh-CN");
+	script.setAttribute("data-loading", "lazy");
+	script.crossOrigin = "anonymous";
+	script.async = true;
+	document.head.appendChild(script);
+</script>
+
+<style>
+	#giscus-container {
+		margin-top: 2rem;
+		padding-top: 1rem;
+		border-top: 1px dashed #666;
+	}
+
+	.giscus-frame {
+		margin-top: 1rem;
+	}
+</style>

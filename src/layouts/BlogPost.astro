@@ -5,16 +5,23 @@ import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
 import WebMentions from "@/components/blog/webmentions/index.astro";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import RelatedPosts from "@/components/blog/RelatedPosts.astro";
+import GiscusComments from "@/components/blog/GiscusComments.astro";
 
 import BaseLayout from "./Base.astro";
 import { generateArticleJsonLd, generateBreadcrumbJsonLd } from "@/utils/seo";
+import { getAllPosts, getRelatedPosts } from "@/data/post";
 import { siteConfig } from "@/site.config";
 
 interface Props {
 	post: CollectionEntry<"post">;
+	relatedPosts?: CollectionEntry<"post">[];
 }
 
-const { post } = Astro.props;
+const { post, relatedPosts: initialRelatedPosts } = Astro.props;
+
+const allPosts = await getAllPosts();
+const relatedPosts = initialRelatedPosts ?? getRelatedPosts(post, allPosts, 3);
 const { ogImage, title, description, updatedDate, publishDate, tags } = post.data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
@@ -64,6 +71,8 @@ const breadcrumbJsonLd = generateBreadcrumbJsonLd([
 			>
 				<slot />
 				<WebMentions />
+				<RelatedPosts posts={relatedPosts} />
+				<GiscusComments path={`/posts/${post.id}/`} />
 			</div>
 		</article>
 	</div>

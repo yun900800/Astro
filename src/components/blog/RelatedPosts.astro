@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+type Props = {
+	posts: CollectionEntry<"post">[];
+};
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+	<aside class="not-prose mt-16 border-t border-zinc-200 pt-8 dark:border-zinc-700">
+		<h2 class="mb-6 text-xl font-semibold text-accent-2">相关文章</h2>
+		<ul class="space-y-4">
+			{posts.map((post) => (
+				<li class="flex flex-col gap-1">
+					<a
+						class="cactus-link text-lg"
+						data-astro-prefetch
+						href={`/posts/${post.id}/`}
+					>
+						{post.data.title}
+					</a>
+					<div class="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+						<FormattedDate date={post.data.publishDate} />
+						{post.data.tags.length > 0 && (
+							<span class="flex gap-1">
+								{post.data.tags.slice(0, 3).map((tag) => (
+									<span class="rounded bg-zinc-100 px-1.5 py-0.5 text-xs dark:bg-zinc-800">
+										{tag}
+									</span>
+								))}
+							</span>
+						)}
+					</div>
+				</li>
+			))}
+		</ul>
+	</aside>
+)}
