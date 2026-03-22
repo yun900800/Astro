@@ -64,7 +64,7 @@ class ImmutableDataStore {
    */
   static async fromModule() {
     try {
-      const data = await import('./_astro_data-layer-content_LoMZYgoM.mjs');
+      const data = await import('./_astro_data-layer-content_El-s1kYA.mjs');
       if (data.default instanceof Map) {
         return ImmutableDataStore.fromMap(data.default);
       }
@@ -127,7 +127,7 @@ function createGetCollection({
     } else if (collection in dataCollectionToEntryMap) {
       type = "data";
     } else if (store.hasCollection(collection)) {
-      const { default: imageAssetMap } = await import('./content-assets_BbP7U7Pj.mjs');
+      const { default: imageAssetMap } = await import('./content-assets_B5A-yDpG.mjs');
       const result = [];
       for (const rawEntry of store.values(collection)) {
         const data = updateImageReferencesInData(rawEntry.data, rawEntry.filePath, imageAssetMap);
@@ -154,7 +154,7 @@ function createGetCollection({
       type === "content" ? contentCollectionToEntryMap[collection] : dataCollectionToEntryMap[collection]
     );
     let entries = [];
-    if (!Object.assign(__vite_import_meta_env__, { Path: process.env.Path })?.DEV && cacheEntriesByCollection.has(collection)) {
+    if (!Object.assign(__vite_import_meta_env__, { _: process.env._ })?.DEV && cacheEntriesByCollection.has(collection)) {
       entries = cacheEntriesByCollection.get(collection);
     } else {
       const limit = pLimit(10);
@@ -207,9 +207,9 @@ function emulateLegacyEntry(entry) {
 }
 const CONTENT_LAYER_IMAGE_REGEX = /__ASTRO_IMAGE_="([^"]+)"/g;
 async function updateImageReferencesInBody(html, fileName) {
-  const { default: imageAssetMap } = await import('./content-assets_BbP7U7Pj.mjs');
+  const { default: imageAssetMap } = await import('./content-assets_B5A-yDpG.mjs');
   const imageObjects = /* @__PURE__ */ new Map();
-  const { getImage } = await import('./_astro_assets_BfKmXLYA.mjs').then(n => n._);
+  const { getImage } = await import('./_astro_assets_CT5xNL7J.mjs').then(n => n._);
   for (const [_full, imagePath] of html.matchAll(CONTENT_LAYER_IMAGE_REGEX)) {
     try {
       const decodedImagePath = JSON.parse(imagePath.replaceAll("&#x22;", '"'));

@@ -40,7 +40,9 @@ export default defineConfig({
 			nesting: true,
 		}),
 		mdx(),
-		robotsTxt(),
+		robotsTxt({
+			sitemap: ["https://www.innovation.pp.ua/sitemap.xml"],
+		}),
 		webmanifest({
 			name: siteConfig.title,
 			short_name: "仙人掌主题",
