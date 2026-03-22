@@ -108,7 +108,7 @@ export default defineConfig({
 		defaultStrategy: "viewport",
 		prefetchAll: true,
 	},
-	site: "https://innovation.pp.ua/",
+	site: "https://www.innovation.pp.ua/",
 	vite: {
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
