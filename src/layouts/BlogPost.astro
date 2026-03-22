@@ -28,12 +28,13 @@ const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { headings } = await render(post);
 
 // 生成 JSON-LD 结构化数据
+const postSlug = post.id.replace(/\.(md|mdx)$/, "");
 const articleJsonLd = generateArticleJsonLd(
 	title,
 	description,
 	publishDate,
 	updatedDate,
-	`/posts/${post.id}/`,
+	`/posts/${postSlug}/`,
 	siteConfig.author,
 	tags,
 );
@@ -41,7 +42,7 @@ const articleJsonLd = generateArticleJsonLd(
 // 生成面包屑结构化数据
 const breadcrumbJsonLd = generateBreadcrumbJsonLd([
 	{ name: "博客", url: "/posts/" },
-	{ name: title, url: `/posts/${post.id}/` },
+	{ name: title, url: `/posts/${postSlug}/` },
 ]);
 ---
 

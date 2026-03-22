@@ -10,7 +10,7 @@ export const prerender = true;
 export const getStaticPaths = (async () => {
 	const allNotes = await getCollection("note");
 	return allNotes.map((note) => ({
-		params: { slug: note.id },
+		params: { slug: note.id.replace(/\.(md|mdx)$/, "") },
 		props: { note },
 	}));
 }) satisfies GetStaticPaths;
