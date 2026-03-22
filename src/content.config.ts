@@ -9,15 +9,12 @@ const baseSchema = z.object({
 	title: z.string().max(60),
 });
 
-const isDev = import.meta.env.PROD;
-let postPath = "";
-let notePath = "";
-if (isDev) {
+let postPath = "./src/content/post";
+let notePath = "./src/content/note";
+
+if (import.meta.env.DEV) {
 	postPath = "src/content/post";
 	notePath = "src/content/note";
-} else {
-	postPath = "./src/content/post";
-	notePath = "./src/content/note";
 }
 
 const post = defineCollection({
