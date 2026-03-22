@@ -1,4 +1,4 @@
-import { c as createComponent, b as renderTemplate, a as addAttribute, e as renderHead } from '../chunks/astro/server_CZ1CvF95.mjs';
+import { c as createComponent, b as renderTemplate, a as addAttribute, e as renderHead } from '../chunks/astro/server_BQybHxKw.mjs';
 import 'kleur/colors';
 import 'clsx';
 import { P as PUBLIC_DECAP_CMS_VERSION } from '../chunks/client_C4DogGe3.mjs';
