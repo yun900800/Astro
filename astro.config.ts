@@ -2,6 +2,7 @@ import fs from "node:fs";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import robotsTxt from "astro-robots-txt";
@@ -9,19 +10,18 @@ import webmanifest from "astro-webmanifest";
 import { defineConfig, envField } from "astro/config";
 import { expressiveCodeOptions } from "./src/site.config";
 import { siteConfig } from "./src/site.config";
-import vercel from "@astrojs/vercel";
 
 // Remark plugins
 import remarkDirective from "remark-directive"; // Handle ::: directives as nodes
+import remarkGemoji from "remark-gemoji"; // Add emoji support
+import remarkMath from "remark-math"; // Add LaTeX support
 import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; // Add admonitions
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
-import remarkMath from "remark-math"; // Add LaTeX support
-import remarkGemoji from "remark-gemoji"; // Add emoji support
 
 // Rehype plugins
 import rehypeExternalLinks from "rehype-external-links";
-import rehypeUnwrapImages from "rehype-unwrap-images";
 import rehypeKatex from "rehype-katex"; // Render LaTeX with KaTeX
+import rehypeUnwrapImages from "rehype-unwrap-images";
 
 import decapCmsOauth from "astro-decap-cms-oauth";
 
@@ -41,41 +41,7 @@ export default defineConfig({
 			applyBaseStyles: false,
 			nesting: true,
 		}),
-		sitemap({
-			// 过滤函数：只包含首页、博客文章和笔记
-			filter: (page) => {
-				// 排除以下路径：
-				// - /og-image/ (OG图片页面)
-				// - /admin/ (后台管理)
-				// - 任何以 / 开头的其他路径都会被检查
-				if (page.includes("/og-image/") || page.includes("/admin/")) {
-					return false;
-				}
-				return true;
-			},
-			// 自定义站点地图条目
-			customPages: [
-				"https://innovation.pp.ua/",
-				"https://innovation.pp.ua/posts/",
-				"https://innovation.pp.ua/notes/",
-				"https://innovation.pp.ua/about/",
-				"https://innovation.pp.ua/tags/",
-			],
-			// 序列化选项
-			serialize: ({ url, changefreq, priority, lastmod }) => {
-				// 为不同页面设置不同的优先级
-				if (url === "/" || url === "/posts/") {
-					return { url, changefreq: "daily", priority: 1.0, lastmod };
-				}
-				if (url.includes("/posts/")) {
-					return { url, changefreq: "weekly", priority: 0.8, lastmod };
-				}
-				if (url.includes("/tags/")) {
-					return { url, changefreq: "weekly", priority: 0.6, lastmod };
-				}
-				return { url, changefreq: "monthly", priority: 0.5, lastmod };
-			},
-		}),
+		sitemap(),
 		mdx(),
 		robotsTxt(),
 		webmanifest({
