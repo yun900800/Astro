@@ -27,6 +27,7 @@ import decapCmsOauth from "astro-decap-cms-oauth";
 export default defineConfig({
 	output: "server",
 	adapter: vercel({
+		imageService: true,
 		webAnalytics: {
 			enabled: true,
 		},
