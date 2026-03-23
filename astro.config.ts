@@ -26,7 +26,11 @@ import decapCmsOauth from "astro-decap-cms-oauth";
 // https://astro.build/config
 export default defineConfig({
 	output: "server",
-	adapter: vercel(),
+	adapter: vercel({
+		webAnalytics: {
+			enabled: true,
+		},
+	}),
 	image: {
 		domains: ["webmention.io"],
 	},
