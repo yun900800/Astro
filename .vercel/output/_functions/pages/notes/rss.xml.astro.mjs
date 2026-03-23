@@ -1,4 +1,4 @@
-import { g as getCollection } from '../../chunks/_astro_content_Bs9TYDyz.mjs';
+import { g as getCollection } from '../../chunks/_astro_content_DWGUOPfm.mjs';
 import { s as siteConfig } from '../../chunks/site.config_DgxvfQdl.mjs';
 import rss from '@astrojs/rss';
 export { renderers } from '../../renderers.mjs';
@@ -8,7 +8,7 @@ const GET = async () => {
   return rss({
     title: siteConfig.title,
     description: siteConfig.description,
-    site: "https://innovation.pp.ua/",
+    site: "https://www.innovation.pp.ua/",
     items: notes.map((note) => ({
       title: note.data.title,
       pubDate: note.data.publishDate,
