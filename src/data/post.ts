@@ -1,28 +1,15 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 
-/** filter out draft posts based on the environment */
 export async function getAllPosts(): Promise<CollectionEntry<"post">[]> {
-	// return await getCollection("post", ({ data }) => {
-	// 	return import.meta.env.PROD ? !data.draft : true;
-
-	// });
-
-	return await getCollection("post", ({ id, data }) => {
-		// 1. 开发环境：全部显示（方便你预览 demo 文章）
-		// 2. 正式环境：过滤掉草稿 AND 过滤掉 demo 目录下的文章
+	return await getCollection("post", ({ id }) => {
 		if (import.meta.env.PROD) {
 			const isDemo = id.startsWith("demo/");
-			return !data.draft && !isDemo;
+			return !isDemo;
 		}
-
-		// 开发环境下显示所有非草稿（或者你也可以干脆返回 true 显示所有）
-		return !data.draft;
+		return true;
 	});
 }
 
-/** groups posts by year (based on option siteConfig.sortPostsByUpdatedDate), using the year as the key
- *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
- */
 export function groupPostsByYear(posts: CollectionEntry<"post">[]) {
 	return posts.reduce<Record<string, CollectionEntry<"post">[]>>((acc, post) => {
 		const year = post.data.publishDate.getFullYear();
@@ -34,23 +21,14 @@ export function groupPostsByYear(posts: CollectionEntry<"post">[]) {
 	}, {});
 }
 
-/** returns all tags created from posts (inc duplicate tags)
- *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
- *  */
 export function getAllTags(posts: CollectionEntry<"post">[]) {
 	return posts.flatMap((post) => [...post.data.tags]);
 }
 
-/** returns all unique tags created from posts
- *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
- *  */
 export function getUniqueTags(posts: CollectionEntry<"post">[]) {
 	return [...new Set(getAllTags(posts))];
 }
 
-/** returns a count of each unique tag - [[tagName, count], ...]
- *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
- *  */
 export function getUniqueTagsWithCount(posts: CollectionEntry<"post">[]): [string, number][] {
 	return [
 		...getAllTags(posts).reduce(
@@ -60,9 +38,6 @@ export function getUniqueTagsWithCount(posts: CollectionEntry<"post">[]): [strin
 	].sort((a, b) => b[1] - a[1]);
 }
 
-/** returns related posts based on shared tags, sorted by relevance (number of matching tags)
- *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
- */
 export function getRelatedPosts(
 	currentPost: CollectionEntry<"post">,
 	allPosts: CollectionEntry<"post">[],
