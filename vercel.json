@@ -1,0 +1,5 @@
+{
+	"build": {
+		"ignore": "git diff --quiet HEAD~1 HEAD -- src/content/draft"
+	}
+}
