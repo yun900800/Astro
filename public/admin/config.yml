@@ -19,7 +19,7 @@ collections:
           name: "description",
           widget: "string",
           default: "这是一篇有意思的文章",
-          required: true,
+          required: false,
         }
       - {
           label: "发布日期",
@@ -29,6 +29,7 @@ collections:
           time_format: "HH:mm",
           required: true,
         }
+      - { label: "草稿", name: "draft", widget: "boolean", default: false }
       - { label: "正文", name: "body", widget: "markdown" }
 
   - name: "post"
@@ -60,6 +61,7 @@ collections:
           default: "/qssjdr.jpg",
           required: true,
         }
+      - { label: "草稿", name: "draft", widget: "boolean", default: false }
       - { label: "正文", name: "body", widget: "markdown" }
 
 media_folder: "public/assets/images" # 文件将被存储在仓库中的位置
