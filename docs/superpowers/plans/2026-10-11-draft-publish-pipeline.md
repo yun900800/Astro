@@ -191,7 +191,7 @@ test("publishDrafts 把打钩的博文草稿搬到 post", async () => {
 
 - [ ] **Step 2: 运行测试，确认失败**
 
-Run: `node --test .github/scripts`
+Run: `node --test .github/scripts/publish-drafts.test.mjs`
 Expected: FAIL —— 报错 `Cannot find module './publish-drafts.mjs'`（脚本尚未创建）。
 
 - [ ] **Step 3: 写最小实现**
@@ -289,7 +289,7 @@ if (invokedDirectly) {
 
 - [ ] **Step 4: 运行测试，确认通过**
 
-Run: `node --test .github/scripts`
+Run: `node --test .github/scripts/publish-drafts.test.mjs`
 Expected: PASS —— 6 个测试全部通过。
 
 - [ ] **Step 5: 代码风格校验**
