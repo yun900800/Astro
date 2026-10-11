@@ -68,6 +68,7 @@ const draftPost = defineCollection({
 	loader: glob({ base: draftPostPath, pattern: "**/*.{md,mdx}" }),
 	schema: ({ image }) =>
 		baseSchema.extend({
+			publish: z.boolean().default(false),
 			description: z.string(),
 			coverImage: z
 				.object({
@@ -91,6 +92,7 @@ const draftPost = defineCollection({
 const draftNote = defineCollection({
 	loader: glob({ base: draftNotePath, pattern: "**/*.{md,mdx}" }),
 	schema: baseSchema.extend({
+		publish: z.boolean().default(false),
 		description: z.string().optional(),
 		publishDate: z
 			.string()

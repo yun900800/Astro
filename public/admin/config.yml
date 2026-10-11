@@ -85,6 +85,14 @@ collections:
           required: true,
         }
       - { label: "正文", name: "body", widget: "markdown" }
+      - {
+          label: "发布",
+          name: "publish",
+          widget: "boolean",
+          default: false,
+          required: false,
+          hint: "打开本开关再保存即发布上线；发布后本条目会从草稿箱移出。",
+        }
 
   - name: "draft_post"
     label: "草稿箱-博文"
@@ -116,6 +124,14 @@ collections:
           required: true,
         }
       - { label: "正文", name: "body", widget: "markdown" }
+      - {
+          label: "发布",
+          name: "publish",
+          widget: "boolean",
+          default: false,
+          required: false,
+          hint: "打开本开关再保存即发布上线；发布后本条目会从草稿箱移出。",
+        }
 
 media_folder: "public/assets/images"
 public_folder: "/assets/images"
